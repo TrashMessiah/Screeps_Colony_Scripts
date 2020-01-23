@@ -10,39 +10,39 @@ module.exports.loop = function () {
     console.log('Harvesters: ' + harvesters.length);
 
     if(harvesters.length < 2) {
-        const newName = 'Harvester' + Game.time;
-        console.log('Spawning new harvester: ' + newName);
-        Game.spawns['TrashColony'].spawnCreep([WORK,CARRY,MOVE], newName, 
-            {memory: {role: 'harvester'}});        
+        console.log('spawning harvester');
+        spawnMissingCreep('Harvester', 'harvester', [WORK,CARRY,MOVE]);   
     }
 
     if(upgraders.length < 2) {
+        console.log('spawning upgrader');
         spawnMissingCreep('Upgrader', 'upgrader', [WORK, CARRY, MOVE]);
     }
 
     if(builders.length < 2) {
+        console.log('spawning builder');
         spawnMissingCreep('Builder', 'builder', [WORK, CARRY, MOVE]);
     }
 
 
     
-    var tower = Game.getObjectById('35a2826e458cfbd225909967');
+    const tower = Game.getObjectById('35a2826e458cfbd225909967');
     if(tower) {
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+        const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < structure.hitsMax
         });
         if(closestDamagedStructure) {
             tower.repair(closestDamagedStructure);
         }
 
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if(closestHostile) {
             tower.attack(closestHostile);
         }
     }
 
-    for(var name in Game.creeps) {
-        var creep = Game.creeps[name];
+    for(let name in Game.creeps) {
+        let creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
         }
@@ -60,4 +60,4 @@ module.exports.loop = function () {
         Game.spawns['TrashColony'].spawnCreep(creepLimbs, newName, 
             {memory: {role: `${creepRole}`}});   
     }
-}
+};
