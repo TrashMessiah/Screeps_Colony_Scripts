@@ -6,6 +6,3 @@ class Creep {
         this._id = id;
     }
 }
-
-
-module.exports = Creep;
